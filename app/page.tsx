@@ -10,7 +10,7 @@ export default function Home() {
           <p className="text-sm font-medium tracking-[0.24em] text-neutral-500 uppercase">
             React UI Lab
           </p>
-          <div className="space-y-4">
+          <div className="max-w-80 space-y-4 md:max-w-none">
             <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
               Reusable{" "}
               <span className="bg-linear-to-r from-sky-700 via-cyan-600 to-emerald-500 bg-clip-text text-transparent">

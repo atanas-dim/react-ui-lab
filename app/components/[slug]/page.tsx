@@ -54,7 +54,7 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
         </div>
 
         <section className="space-y-6">
-          <div className="rounded-4xl border border-neutral-200 bg-white p-8 shadow-sm">
+          <div className="rounded-4xl border border-neutral-200 bg-white p-4 pt-8 shadow-sm md:p-8">
             <div className="mb-6 flex items-center justify-between gap-4">
               <h2 className="text-lg font-semibold text-neutral-900">
                 Live preview
@@ -69,7 +69,7 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
           </div>
 
           <div>
-            <section className="rounded-4xl border border-neutral-200 bg-white p-6 shadow-sm">
+            <section className="rounded-4xl border border-neutral-200 bg-white p-4 pt-8 shadow-sm md:p-8">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <h2 className="text-lg font-semibold text-neutral-900">
                   Usage
