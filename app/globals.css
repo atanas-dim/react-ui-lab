@@ -9,3 +9,11 @@ body {
   background-color: var(--color-neurtal-50);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
+
+a {
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+}
