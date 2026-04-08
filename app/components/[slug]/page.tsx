@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
-  COMPONENTS,
+  COMPONENT_LIST,
   getComponentBySlug,
 } from "@/resources/components-registry";
 import { ChevronLeftIcon, CodeIcon } from "lucide-react";
+import { USAGE_EXAMPLES } from "@/resources/usage-examples";
+import { ComponentSlug } from "@/resources/component-slugs";
 
 type ComponentPageProps = {
   params: Promise<{
@@ -12,21 +14,15 @@ type ComponentPageProps = {
   }>;
 };
 
-const USAGE_EXAMPLES: Record<string, string> = {
-  "pill-button": `import PillButton from "@/components/pill-button/PillButton";
-
-export default function Example() {
-  return <PillButton>Launch</PillButton>;
-}`,
-};
-
 export async function generateStaticParams() {
-  return COMPONENTS.map((component) => ({ slug: component.slug }));
+  return COMPONENT_LIST.map((component) => ({
+    slug: component.slug,
+  }));
 }
 
 export default async function ComponentPage({ params }: ComponentPageProps) {
   const { slug } = await params;
-  const component = getComponentBySlug(slug);
+  const component = getComponentBySlug(slug as ComponentSlug);
 
   if (!component) {
     notFound();
@@ -53,19 +49,10 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
             <p className="max-w-2xl text-base leading-7 text-neutral-600 sm:text-lg">
               {component.description}
             </p>
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-neutral-900 transition-colors hover:text-neutral-600"
-              href={`https://github.com/atanas-dim/react-ui-lab/tree/main/components/${component.slug}`}
-            >
-              <CodeIcon className="size-4" />
-              Open on GitHub
-            </a>
           </div>
         </div>
 
-        <section className="grid gap-6 lg:grid-cols-[1.35fr_0.95fr]">
+        <section className="space-y-6">
           <div className="rounded-4xl border border-neutral-200 bg-white p-8 shadow-sm">
             <div className="mb-6 flex items-center justify-between gap-4">
               <h2 className="text-lg font-semibold text-neutral-900">
@@ -80,9 +67,22 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
             </div>
           </div>
 
-          <div className="space-y-6">
+          <div>
             <section className="rounded-4xl border border-neutral-200 bg-white p-6 shadow-sm">
-              <h2 className="text-lg font-semibold text-neutral-900">Usage</h2>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <h2 className="text-lg font-semibold text-neutral-900">
+                  Usage
+                </h2>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-neutral-900 transition-colors hover:text-neutral-600"
+                  href={`https://github.com/atanas-dim/react-ui-lab/tree/main/components/${component.slug}`}
+                >
+                  <CodeIcon className="size-4" />
+                  Open on GitHub
+                </a>
+              </div>
               <pre className="mt-4 overflow-x-auto rounded-2xl bg-neutral-950 p-5 text-sm leading-6 text-neutral-100">
                 <code>{usageExample}</code>
               </pre>

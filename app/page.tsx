@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { COMPONENTS } from "@/resources/components-registry";
+import { COMPONENT_LIST } from "@/resources/components-registry";
 
 export default function Home() {
   return (
@@ -21,7 +21,7 @@ export default function Home() {
         </section>
 
         <section className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          {COMPONENTS.map((component) => (
+          {COMPONENT_LIST.map((component) => (
             <Link
               key={component.slug}
               href={`/components/${component.slug}`}
