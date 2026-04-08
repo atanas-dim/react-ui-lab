@@ -35,7 +35,7 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
 
   return (
     <main className="min-h-screen text-neutral-950">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-16 sm:px-10 lg:px-12">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-16 sm:px-10 lg:px-12">
         <div className="space-y-4">
           <Link
             href="/"

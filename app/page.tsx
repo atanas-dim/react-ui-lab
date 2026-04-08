@@ -5,18 +5,18 @@ import { COMPONENT_LIST } from "@/resources/components-registry";
 export default function Home() {
   return (
     <main className="min-h-screen text-neutral-950">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-6 py-16 sm:px-10 lg:px-12">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 py-16 sm:px-10 lg:px-12">
         <section className="max-w-2xl space-y-5">
           <p className="text-sm font-medium tracking-[0.24em] text-neutral-500 uppercase">
             React UI Lab
           </p>
-          <div className="max-w-80 space-y-4 md:max-w-none">
+          <div className="max-w-80 space-y-4 sm:max-w-120 md:max-w-none">
             <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
               Reusable{" "}
-              <span className="bg-linear-to-r from-sky-700 via-cyan-600 to-emerald-500 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-sky-700 via-cyan-600 to-emerald-500 bg-clip-text whitespace-nowrap text-transparent">
                 UI components
               </span>
-              , isolated and easy to reuse.
+              , isolated and production-ready.
             </h1>
             <p className="text-base leading-7 text-neutral-600 sm:text-lg">
               Browse each component, inspect the preview, and copy the minimal
