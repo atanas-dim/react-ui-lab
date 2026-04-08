@@ -1,4 +1,5 @@
 import type { FC } from "react";
+
 import { ComponentSlug } from "@/resources/component-slugs";
 
 export type ShowcaseComponent = {

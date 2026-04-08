@@ -1,12 +1,13 @@
+import { ChevronLeftIcon, CodeIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+import { ComponentSlug } from "@/resources/component-slugs";
 import {
   COMPONENT_LIST,
   getComponentBySlug,
 } from "@/resources/components-registry";
-import { ChevronLeftIcon, CodeIcon } from "lucide-react";
 import { USAGE_EXAMPLES } from "@/resources/usage-examples";
-import { ComponentSlug } from "@/resources/component-slugs";
 
 type ComponentPageProps = {
   params: Promise<{
@@ -33,12 +34,12 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
     USAGE_EXAMPLES[component.slug] ?? "// Usage example coming soon";
 
   return (
-    <main className="min-h-screen bg-neutral-50 text-neutral-950">
+    <main className="min-h-screen text-neutral-950">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-16 sm:px-10 lg:px-12">
         <div className="space-y-4">
           <Link
             href="/"
-            className="inline-flex items-center underline-offset-4 text-sm font-medium underline text-neutral-500 transition-colors hover:text-neutral-900"
+            className="inline-flex items-center text-sm font-medium text-neutral-500 underline underline-offset-4 transition-colors hover:text-neutral-900"
           >
             <ChevronLeftIcon /> Back to components
           </Link>
@@ -58,7 +59,7 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
               <h2 className="text-lg font-semibold text-neutral-900">
                 Live preview
               </h2>
-              <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
+              <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium tracking-[0.18em] text-neutral-500 uppercase">
                 Interactive
               </span>
             </div>
