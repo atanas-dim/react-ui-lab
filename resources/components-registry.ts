@@ -15,7 +15,10 @@ export const COMPONENTS: Record<ComponentSlug, ShowcaseComponent> = {
     name: "Pill Button",
     description:
       "Rounded call-to-action button with a soft lift, subtle glow, and reusable Tailwind-only styling.",
-    component: () => import("@/components/pill-button/PillButton"),
+    component: () =>
+      import("@/components/pill-button/PillButton").then((mod) => ({
+        default: mod.PillButtonPreview,
+      })),
   },
 };
 
