@@ -52,7 +52,7 @@ const PillButton = ({
         {...rest}
         className={twMerge(
           // base styles
-          "jellybean-btn group noise relative inline-flex min-w-40 items-center justify-center rounded-full px-6 py-3.5",
+          "jelly-btn group noise relative inline-flex min-w-40 items-center justify-center rounded-full px-6 py-3.5",
           // typography
           "text-sm font-medium tracking-tight text-white text-shadow-[0_0px_6px_rgba(10,10,10,0.4)]",
           // base background
