@@ -70,6 +70,7 @@ const PillButton = ({
           "active:translate-y-0 active:scale-[0.99]",
 
           "transition-all duration-300 ease-out",
+
           className,
         )}
         onPointerMove={handlePointerMove}
