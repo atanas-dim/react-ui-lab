@@ -1,6 +1,7 @@
 import { ChevronLeftIcon, CodeIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { codeToHtml } from "shiki";
 
 import { ComponentSlug } from "@/resources/component-slugs";
 import {
@@ -32,6 +33,10 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
   const { default: PreviewComponent } = await component.component();
   const usageExample =
     USAGE_EXAMPLES[component.slug] ?? "// Usage example coming soon";
+  const highlightedUsageExample = await codeToHtml(usageExample, {
+    lang: "tsx",
+    theme: "github-dark",
+  });
 
   return (
     <main className="min-h-screen text-neutral-950">
@@ -84,9 +89,10 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
                   Open on GitHub
                 </a>
               </div>
-              <pre className="mt-4 overflow-x-auto rounded-2xl bg-neutral-950 p-5 text-sm leading-6 text-neutral-100">
-                <code>{usageExample}</code>
-              </pre>
+              <div
+                className="code-block mt-4 overflow-x-auto overscroll-none rounded-2xl border border-neutral-800/80 bg-neutral-800"
+                dangerouslySetInnerHTML={{ __html: highlightedUsageExample }}
+              />
             </section>
           </div>
         </section>

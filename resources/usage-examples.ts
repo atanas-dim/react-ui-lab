@@ -1,7 +1,8 @@
 import { ComponentSlug } from "./component-slugs";
 
 export const USAGE_EXAMPLES: Record<ComponentSlug, string> = {
-  [ComponentSlug.PillButton]: `import PillButton from "@/components/pill-button/PillButton";
+  [ComponentSlug.PillButton]: `import { type FC } from "react";
+import PillButton from "@/components/pill-button/PillButton";
   
 export const PillButtonPreview: FC = () => {
   return (

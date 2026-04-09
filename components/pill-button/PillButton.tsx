@@ -19,7 +19,7 @@ const PillButton: FC<PillButtonProps> = ({
   children = "Label",
   className,
   onPointerMove,
-  onPointerUp,
+  onPointerLeave,
   ...rest
 }) => {
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -35,13 +35,13 @@ const PillButton: FC<PillButtonProps> = ({
     onPointerMove?.(e);
   };
 
-  const handlePointerUp: PointerEventHandler<HTMLButtonElement> = (e) => {
+  const handlePointerLeave: PointerEventHandler<HTMLButtonElement> = (e) => {
     if (!btnRef.current) return;
     // reset the CSS variable on pointer up, so the button goes back to its original position
     btnRef.current.style.setProperty("--btn-rotate-x", `0deg`);
     btnRef.current.style.setProperty("--btn-rotate-y", `0deg`);
 
-    onPointerUp?.(e);
+    onPointerLeave?.(e);
   };
 
   return (
@@ -51,7 +51,7 @@ const PillButton: FC<PillButtonProps> = ({
       {...rest}
       className={twMerge(
         // base styles
-        "jelly-btn group noise relative inline-flex min-w-40 items-center justify-center rounded-full px-6 py-3.5",
+        "jelly-btn noise group noise relative inline-flex min-w-40 items-center justify-center rounded-full px-6 py-3.5",
         // typography
         "text-sm font-medium tracking-tight text-white text-shadow-[0_0px_6px_rgba(10,10,10,0.4)]",
         // base background
@@ -73,7 +73,7 @@ const PillButton: FC<PillButtonProps> = ({
         className,
       )}
       onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
+      onPointerLeave={handlePointerLeave}
     >
       <span className="z-1 transition-transform duration-300 group-hover:-translate-y-0.5 group-active:-translate-y-px group-active:scale-98">
         {children}
