@@ -6,21 +6,21 @@
 
 .jelly-btn {
   --btn-bg-color: rgb(from var(--color-pink-600) r g b / 0.5);
-  --btn-press-highlight: rgb(from var(--color-pink-50) r g b / 0.6);
-  --btn-press-shadow: rgb(from var(--color-pink-700) r g b / 0.5);
+  --btn-press-highlight: rgb(from var(--color-pink-100) r g b / 0.6);
+  --btn-press-shadow: rgb(from var(--color-pink-800) r g b / 0.6);
   --btn-text-color: var(--color-pink-100);
 }
 
 .jelly-btn:hover {
   --btn-bg-color: rgb(from var(--color-purple-600) r g b / 0.5);
   --btn-press-highlight: rgb(from var(--color-purple-50) r g b / 0.6);
-  --btn-press-shadow: rgb(from var(--color-purple-700) r g b / 0.5);
+  --btn-press-shadow: rgb(from var(--color-purple-800) r g b / 0.6);
   --btn-text-color: var(--color-purple-100);
 }
 
 .jelly-btn:active {
   --btn-bg-color: rgb(from var(--color-teal-600) r g b / 0.5);
   --btn-press-highlight: rgb(from var(--color-teal-50) r g b / 0.6);
-  --btn-press-shadow: rgb(from var(--color-teal-700) r g b / 0.5);
+  --btn-press-shadow: rgb(from var(--color-teal-800) r g b / 0.6);
   --btn-text-color: var(--color-teal-50);
 }

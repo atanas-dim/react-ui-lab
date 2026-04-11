@@ -58,8 +58,8 @@ const PillButton: FC<PillButtonProps> = ({
         // base background
         "bg-(--btn-bg-color) backdrop-blur-sm",
         // press effect layers
-        "before:absolute before:top-1/2 before:left-1/2 before:h-1/2 before:w-7/10 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-full before:bg-(--btn-press-highlight) before:opacity-0 before:blur-sm before:transition-opacity before:duration-300 active:before:opacity-100",
-        "after:absolute after:top-2/5 after:left-1/2 after:h-1/3 after:w-7/10 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:bg-(--btn-press-shadow) after:opacity-0 after:blur-sm after:transition-opacity after:duration-300 active:after:opacity-100",
+        "before:absolute before:top-1/2 before:left-1/2 before:h-1/3 before:w-7/10 before:-translate-x-1/2 before:-translate-y-1/3 before:rounded-full before:bg-(--btn-press-highlight) before:opacity-0 before:blur-sm before:transition-opacity before:duration-300 active:before:opacity-100",
+        "after:absolute after:top-1/2 after:left-1/2 after:h-1/3 after:w-7/10 after:-translate-x-1/2 after:-translate-y-3/4 after:rounded-full after:bg-(--btn-press-shadow) after:opacity-0 after:blur-sm after:transition-opacity after:duration-300 active:after:opacity-100",
         // focus ring
         "focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:outline-none",
         // shadows
