@@ -1,6 +1,6 @@
 "use client";
 
-import { LoaderIcon, ThumbsUpIcon } from "lucide-react";
+import { LoaderIcon, RocketIcon, ThumbsUpIcon } from "lucide-react";
 import { type FC, useState } from "react";
 
 import JellyButton, { type JellyButtonState } from "./JellyButton";
@@ -34,7 +34,7 @@ const JellyButtonPreview: FC = () => {
   return (
     <div className="relative z-10 flex flex-col gap-3 perspective-midrange md:flex-row">
       {/* Background shapes */}
-      <div className="absolute inset-0">
+      <div className="pointer-events-none absolute inset-0 -z-1 select-none">
         <div className="absolute top-6 -left-16 -z-1 size-28 rounded-xl bg-mist-400" />
         <div className="absolute -top-8 left-3/5 -z-1 size-32 rounded-full bg-mauve-400" />
         <div className="absolute -right-10 -bottom-2/10 -z-1 size-22 rounded-sm bg-olive-400" />
@@ -45,15 +45,20 @@ const JellyButtonPreview: FC = () => {
         state={state}
         onClick={handleClick}
       >
-        {state === "idle" && "Launch"}
+        {state === "idle" && (
+          <>
+            <RocketIcon className="size-4.5" /> Launch
+          </>
+        )}
         {state === "processing" && (
           <>
-            <LoaderIcon className="size-4.5 animate-spin" /> Processing...
+            <LoaderIcon className="size-4.5 animate-spin group-disabled:animate-none" />{" "}
+            Processing...
           </>
         )}
         {state === "success" && (
           <>
-            <ThumbsUpIcon className="size-4.5 translate-y-0.5 animate-bounce" />
+            <ThumbsUpIcon className="size-4.5 translate-y-0.5 animate-bounce group-disabled:animate-none" />
             Success!
           </>
         )}
@@ -61,11 +66,11 @@ const JellyButtonPreview: FC = () => {
 
       <JellyButton
         className="mx-auto min-w-46"
-        state={state}
-        onClick={handleClick}
+        state={"success"}
         animateLabel={false}
       >
-        Launch
+        <ThumbsUpIcon className="size-4.5 -translate-y-0.5" />
+        Success!
       </JellyButton>
 
       <JellyButton
@@ -74,7 +79,7 @@ const JellyButtonPreview: FC = () => {
         onClick={handleClick}
         disabled
       >
-        Launch
+        <RocketIcon className="size-4.5" /> Launch
       </JellyButton>
     </div>
   );
