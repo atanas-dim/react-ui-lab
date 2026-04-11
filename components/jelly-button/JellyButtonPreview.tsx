@@ -5,6 +5,9 @@ import { type FC, useState } from "react";
 
 import JellyButton, { type JellyButtonState } from "./JellyButton";
 
+const PROCESSING_DELAY_MS = 2800;
+const SUCCESS_DELAY_MS = 1400;
+
 const delay = (ms: number): Promise<void> => {
   return new Promise((resolve) => {
     window.setTimeout(resolve, ms);
@@ -19,11 +22,11 @@ const JellyButtonPreview: FC = () => {
 
     setState("processing");
 
-    await delay(4600);
+    await delay(PROCESSING_DELAY_MS);
 
     setState("success");
 
-    await delay(3200);
+    await delay(SUCCESS_DELAY_MS);
 
     setState("idle");
   };
@@ -69,7 +72,6 @@ const JellyButtonPreview: FC = () => {
         className="mx-auto min-w-46"
         state={state}
         onClick={handleClick}
-        // animateLabel={false}
         disabled
       >
         Launch

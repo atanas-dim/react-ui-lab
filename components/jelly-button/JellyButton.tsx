@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "motion/react";
 import {
   type ButtonHTMLAttributes,
   type FC,
+  type PointerEvent,
   type PointerEventHandler,
   type PropsWithChildren,
   useRef,
@@ -51,22 +52,29 @@ const JellyButton: FC<JellyButtonProps> = ({
   const isSuccess = state === "success";
   const isDisabled = rest.disabled;
 
-  const handlePointerMove: PointerEventHandler<HTMLButtonElement> = (e) => {
-    if (!btnRef.current || isDisabled) return;
+  const setRotateValues = (e: PointerEvent<HTMLButtonElement>) => {
+    if (!btnRef.current) return;
     // Update hover rotation from the pointer position relative to the button center.
     const rect = btnRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
     btnRef.current.style.setProperty("--btn-rotate-y", `${x * 0.05}deg`);
     btnRef.current.style.setProperty("--btn-rotate-x", `${y * -0.5}deg`);
+  };
+
+  const handlePointerMove: PointerEventHandler<HTMLButtonElement> = (e) => {
+    setRotateValues(e);
     onPointerMove?.(e);
   };
 
-  const handlePointerLeave: PointerEventHandler<HTMLButtonElement> = (e) => {
-    if (!btnRef.current || isDisabled) return;
+  const resetRotateValues = () => {
+    if (!btnRef.current) return;
     btnRef.current.style.setProperty("--btn-rotate-x", "0deg");
     btnRef.current.style.setProperty("--btn-rotate-y", "0deg");
+  };
 
+  const handlePointerLeave: PointerEventHandler<HTMLButtonElement> = (e) => {
+    resetRotateValues();
     onPointerLeave?.(e);
   };
 
@@ -92,7 +100,7 @@ const JellyButton: FC<JellyButtonProps> = ({
       {...rest}
       className={twMerge(
         // base styles
-        "group noise relative inline-flex h-12 min-w-40 cursor-pointer items-center justify-center rounded-full px-6",
+        "group noise relative inline-flex h-12 min-w-40 items-center justify-center rounded-full px-6",
 
         // background colors
         "backdrop-blur-sm",
@@ -114,23 +122,26 @@ const JellyButton: FC<JellyButtonProps> = ({
         isIdle && "before:bg-pink-100/60",
         isProcessing && "before:bg-purple-50/60",
         isSuccess && "before:bg-teal-50/60",
-        (isDisabled || isProcessing) && "before:opacity-0!",
+        isDisabled && "before:opacity-0!",
 
         // press shadow
         "after:absolute after:top-1/2 after:left-1/2 after:h-1/3 after:w-7/10 after:-translate-x-1/2 after:-translate-y-3/4 after:rounded-full after:bg-(--btn-press-shadow) after:opacity-0 after:blur-sm after:transition-opacity after:duration-300 active:after:opacity-100",
         isIdle && "after:bg-pink-800/60",
         isProcessing && "after:bg-purple-800/60",
         isSuccess && "after:bg-teal-800/60",
-        (isDisabled || isProcessing) && "after:opacity-0!",
+        isDisabled && "after:opacity-0!",
 
         // transforms
         "hover:-translate-y-0.5 hover:scale-[1.02] hover:rotate-x-(--btn-rotate-x) hover:rotate-y-(--btn-rotate-y)",
         "active:translate-y-0 active:scale-[0.99]",
         "transition-all duration-300 ease-out",
 
-        (isDisabled || isProcessing) &&
-          "translate-y-0 scale-100 cursor-default hover:translate-y-0 hover:scale-100 active:translate-y-0 active:scale-100",
-        "disabled:cursor-not-allowed",
+        isDisabled &&
+          "translate-y-0 scale-100 hover:translate-y-0 hover:scale-100 active:translate-y-0 active:scale-100",
+
+        //cursor
+        "cursor-pointer disabled:pointer-events-none disabled:cursor-not-allowed",
+        isProcessing && "cursor-default",
 
         className,
       )}
