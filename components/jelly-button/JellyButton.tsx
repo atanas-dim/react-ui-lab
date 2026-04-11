@@ -160,7 +160,7 @@ const JellyButton: FC<JellyButtonProps> = ({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{
-                duration: 0.22,
+                duration: 0.3,
                 ease: "easeOut",
               }}
               className="pointer-events-none absolute inset-0 overflow-hidden rounded-full motion-reduce:hidden"
@@ -168,7 +168,7 @@ const JellyButton: FC<JellyButtonProps> = ({
               {PROCESSING_LIGHTS.map(({ delay, duration }, index) => (
                 <motion.span
                   key={index}
-                  className="absolute top-1/2 block h-2/5 w-3/10 -translate-y-1/2 rounded-full bg-white/35 blur-md"
+                  className="absolute top-1/2 block h-2/5 w-3/10 -translate-y-1/2 rounded-full bg-white/40 blur-md"
                   initial={{ x: "-100%" }}
                   animate={{ x: "300%", opacity: [0, 0.55, 0.3, 0.42, 0] }}
                   transition={{
