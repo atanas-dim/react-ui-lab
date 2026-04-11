@@ -29,13 +29,16 @@ const JellyButtonPreview: FC = () => {
   };
 
   return (
-    <div className="relative z-10 flex flex-col gap-3 perspective-midrange">
-      <div className="absolute inset-0 -z-1 size-32 -translate-x-16 translate-y-6 rounded-xl bg-mist-500" />
-      <div className="absolute inset-0 -z-1 size-20 translate-x-26 -translate-y-6 rounded-full bg-mauve-400" />
-      <div className="absolute inset-0 -z-1 size-22 translate-x-33 translate-y-18 rounded-none bg-olive-400" />
+    <div className="relative z-10 flex flex-col gap-3 perspective-midrange md:flex-row">
+      {/* Background shapes */}
+      <div className="absolute inset-0">
+        <div className="absolute top-6 -left-16 -z-1 size-28 rounded-xl bg-mist-400" />
+        <div className="absolute -top-8 left-3/5 -z-1 size-32 rounded-full bg-mauve-400" />
+        <div className="absolute -right-10 -bottom-2/10 -z-1 size-22 rounded-sm bg-olive-400" />
+      </div>
 
       <JellyButton
-        className="mx-auto min-w-50"
+        className="mx-auto min-w-46"
         state={state}
         onClick={handleClick}
       >
@@ -54,7 +57,7 @@ const JellyButtonPreview: FC = () => {
       </JellyButton>
 
       <JellyButton
-        className="mx-auto min-w-50"
+        className="mx-auto min-w-46"
         state={state}
         onClick={handleClick}
         animateLabel={false}
@@ -63,10 +66,10 @@ const JellyButtonPreview: FC = () => {
       </JellyButton>
 
       <JellyButton
-        className="mx-auto min-w-50"
+        className="mx-auto min-w-46"
         state={state}
         onClick={handleClick}
-        animateLabel={false}
+        // animateLabel={false}
         disabled
       >
         Launch

@@ -52,7 +52,7 @@ const JellyButton: FC<JellyButtonProps> = ({
   const isDisabled = rest.disabled;
 
   const handlePointerMove: PointerEventHandler<HTMLButtonElement> = (e) => {
-    if (!btnRef.current) return;
+    if (!btnRef.current || isDisabled) return;
     // Update hover rotation from the pointer position relative to the button center.
     const rect = btnRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
@@ -63,7 +63,7 @@ const JellyButton: FC<JellyButtonProps> = ({
   };
 
   const handlePointerLeave: PointerEventHandler<HTMLButtonElement> = (e) => {
-    if (!btnRef.current) return;
+    if (!btnRef.current || isDisabled) return;
     btnRef.current.style.setProperty("--btn-rotate-x", "0deg");
     btnRef.current.style.setProperty("--btn-rotate-y", "0deg");
 
@@ -130,7 +130,7 @@ const JellyButton: FC<JellyButtonProps> = ({
 
         (isDisabled || isProcessing) &&
           "translate-y-0 scale-100 cursor-default hover:translate-y-0 hover:scale-100 active:translate-y-0 active:scale-100",
-        "disabled:pointer-events-none",
+        "disabled:cursor-not-allowed",
 
         className,
       )}
@@ -168,7 +168,7 @@ const JellyButton: FC<JellyButtonProps> = ({
         </AnimatePresence>
       )}
 
-      {animateLabel ? (
+      {animateLabel && !isDisabled ? (
         <AnimatePresence mode="wait">
           <motion.span
             key={animateLabel ? state : "static"}
