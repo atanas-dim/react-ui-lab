@@ -18,11 +18,11 @@ const JellyButtonPreview: FC = () => {
 
     setState("processing");
 
-    await delay(3200);
+    await delay(13200);
 
     setState("success");
 
-    await delay(1600);
+    await delay(1800);
 
     setState("idle");
   };
@@ -34,7 +34,6 @@ const JellyButtonPreview: FC = () => {
 
       <JellyButton
         className="mx-auto"
-        disabled={state === "processing"}
         state={state}
         stateContent={{
           idle: "Launch",

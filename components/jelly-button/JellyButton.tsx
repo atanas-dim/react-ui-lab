@@ -2,6 +2,7 @@
 
 import "./JellyButton.css";
 
+import { AnimatePresence, motion } from "motion/react";
 import {
   type ButtonHTMLAttributes,
   type FC,
@@ -11,6 +12,17 @@ import {
   useRef,
 } from "react";
 import { twJoin, twMerge } from "tailwind-merge";
+
+type ProcessingLight = {
+  delay: number;
+  duration: number;
+};
+
+const PROCESSING_LIGHTS: ProcessingLight[] = [
+  { delay: 0, duration: 1.35 },
+  { delay: 0.36, duration: 1.65 },
+  { delay: 0.78, duration: 1.5 },
+];
 
 export type JellyButtonState = "idle" | "processing" | "success";
 
@@ -41,7 +53,7 @@ const JellyButton: FC<JellyButtonProps> = ({
   const isDisabled = rest.disabled;
 
   const handlePointerMove: PointerEventHandler<HTMLButtonElement> = (e) => {
-    if (!btnRef.current || isDisabled) return;
+    if (!btnRef.current) return;
     // Update hover rotation from the pointer position relative to the button center.
     const rect = btnRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
@@ -63,10 +75,11 @@ const JellyButton: FC<JellyButtonProps> = ({
     <button
       ref={btnRef}
       type="button"
+      aria-busy={isProcessing}
       {...rest}
       className={twMerge(
         // base styles
-        "group noise relative inline-flex min-w-40 items-center justify-center rounded-full px-6 py-3.5",
+        "group noise relative inline-flex min-w-40 cursor-pointer items-center justify-center rounded-full px-6 py-3.5",
         // background colors
         twJoin(
           "backdrop-blur-sm",
@@ -86,6 +99,7 @@ const JellyButton: FC<JellyButtonProps> = ({
           isProcessing && "before:bg-purple-50/60",
           isSuccess && "before:bg-teal-50/60",
         ),
+        (isDisabled || isProcessing) && "before:opacity-0!",
         // press shadow
         "after:absolute after:top-1/2 after:left-1/2 after:h-1/3 after:w-7/10 after:-translate-x-1/2 after:-translate-y-3/4 after:rounded-full after:bg-(--btn-press-shadow) after:opacity-0 after:blur-sm after:transition-opacity after:duration-300 active:after:opacity-100",
         twJoin(
@@ -93,32 +107,72 @@ const JellyButton: FC<JellyButtonProps> = ({
           isProcessing && "after:bg-purple-800/60",
           isSuccess && "after:bg-teal-800/60",
         ),
+        (isDisabled || isProcessing) && "after:opacity-0!",
         // transforms
         "hover:-translate-y-0.5 hover:scale-[1.02] hover:rotate-x-(--btn-rotate-x) hover:rotate-y-(--btn-rotate-y)",
         "active:translate-y-0 active:scale-[0.99]",
         "transition-all duration-300 ease-out",
+
+        (isDisabled || isProcessing) &&
+          "translate-y-0 scale-100 cursor-progress hover:translate-y-0 hover:scale-100 active:translate-y-0 active:scale-100",
+
         className,
       )}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
     >
-      <span
-        className={twMerge(
-          // typography
-          "text-sm font-semibold tracking-wide uppercase text-shadow-[0_0px_6px_rgba(10,10,10,0.4)]",
-          twJoin(
+      <AnimatePresence initial={false}>
+        {isProcessing && (
+          <motion.span
+            key="processing-lights"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+            className="pointer-events-none absolute inset-0 overflow-hidden rounded-full"
+          >
+            {PROCESSING_LIGHTS.map(({ delay, duration }, index) => (
+              <motion.span
+                key={index}
+                className="absolute top-1/2 block h-2/5 w-3/10 -translate-y-1/2 rounded-full bg-white/30 blur-md"
+                initial={{ x: "-100%" }}
+                animate={{ x: "300%", opacity: [0, 0.55, 0.3, 0.42, 0] }}
+                transition={{
+                  duration,
+                  delay,
+                  repeat: Infinity,
+                  ease: "linear",
+                  times: [0, 0.08, 0.55, 0.78, 1],
+                }}
+              />
+            ))}
+          </motion.span>
+        )}
+      </AnimatePresence>
+
+      {/* <span className="relative z-1 block h-5 overflow-hidden"> */}
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={state}
+          initial={{ y: 14, opacity: 0, filter: "blur(2px)" }}
+          animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+          exit={{ y: -14, opacity: 0, filter: "blur(2px)" }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className={twMerge(
+            // typography
+            "z-1 text-sm font-semibold tracking-wide uppercase text-shadow-[0_0px_6px_rgba(10,10,10,0.4)]",
+
             isIdle && "text-pink-100",
             isProcessing && "text-purple-100",
             isSuccess && "text-teal-50",
-          ),
-          // transforms
-          "z-1 group-hover:-translate-y-0.5 group-active:-translate-y-px group-active:scale-98",
-          "transition-transform duration-300",
-          labelClassName,
-        )}
-      >
-        {resolvedContent}
-      </span>
+
+            labelClassName,
+          )}
+        >
+          {resolvedContent}
+        </motion.span>
+      </AnimatePresence>
+      {/* </span> */}
     </button>
   );
 };
