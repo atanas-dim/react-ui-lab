@@ -8,7 +8,7 @@ import {
   COMPONENT_LIST,
   getComponentBySlug,
 } from "@/resources/components-registry";
-import { USAGE_EXAMPLES } from "@/resources/usage-examples";
+import { loadPreviewComponent, loadUsageExample } from "@/utils/preview-loader";
 
 type ComponentPageProps = {
   params: Promise<{
@@ -30,9 +30,11 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
     notFound();
   }
 
-  const { default: PreviewComponent } = await component.component();
-  const usageExample =
-    USAGE_EXAMPLES[component.slug] ?? "// Usage example coming soon";
+  const { default: PreviewComponent } = await loadPreviewComponent(
+    component.previewPath,
+  );
+  const usageExample = await loadUsageExample(component.previewPath);
+
   const highlightedUsageExample = await codeToHtml(usageExample, {
     lang: "tsx",
     theme: "github-dark",
@@ -52,7 +54,7 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
             <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
               {component.name}
             </h1>
-            <p className="max-w-2xl text-base leading-7 text-neutral-600 sm:text-lg">
+            <p className="max-w-2xl text-base leading-7 whitespace-pre-line text-neutral-600 sm:text-lg">
               {component.description}
             </p>
           </div>
