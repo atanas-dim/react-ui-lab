@@ -99,7 +99,7 @@ const JellyButton: FC<JellyButtonProps> = ({
         isIdle && "bg-pink-600/50",
         isProcessing && "bg-purple-600/50",
         isSuccess && "bg-teal-600/50",
-        "disabled:bg-neutral-400/50",
+        "disabled:bg-neutral-300/50",
 
         // shadows
         "shadow-[inset_0px_-16px_16px_0px_rgba(10,10,10,0.6),0_12px_16px_-14px_rgba(10,10,10,0.55)]",
@@ -169,7 +169,7 @@ const JellyButton: FC<JellyButtonProps> = ({
       )}
 
       {animateLabel && !isDisabled ? (
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" initial={false}>
           <motion.span
             key={animateLabel ? state : "static"}
             initial={{ y: 14, opacity: 0, filter: "blur(2px)" }}
