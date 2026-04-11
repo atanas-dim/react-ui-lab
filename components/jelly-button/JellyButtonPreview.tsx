@@ -1,6 +1,7 @@
 "use client";
 
-import { type FC, useEffect, useRef, useState } from "react";
+import { LoaderIcon, ThumbsUpIcon } from "lucide-react";
+import { type FC, useState } from "react";
 
 import JellyButton, { type JellyButtonState } from "./JellyButton";
 
@@ -18,11 +19,11 @@ const JellyButtonPreview: FC = () => {
 
     setState("processing");
 
-    await delay(13200);
+    await delay(4600);
 
     setState("success");
 
-    await delay(1800);
+    await delay(3200);
 
     setState("idle");
   };
@@ -33,12 +34,21 @@ const JellyButtonPreview: FC = () => {
       <div className="absolute inset-0 -z-1 size-20 translate-x-26 -translate-y-6 rounded-full bg-mauve-400" />
 
       <JellyButton
-        className="mx-auto"
+        className="mx-auto min-w-50"
         state={state}
         stateContent={{
           idle: "Launch",
-          processing: "Processing...",
-          success: "Success",
+          processing: (
+            <>
+              <LoaderIcon className="size-4.5 animate-spin" /> Processing...
+            </>
+          ),
+          success: (
+            <>
+              <ThumbsUpIcon className="size-4.5 translate-y-0.5 animate-bounce" />
+              Success!
+            </>
+          ),
         }}
         onClick={handleClick}
       >

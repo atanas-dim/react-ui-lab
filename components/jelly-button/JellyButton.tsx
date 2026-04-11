@@ -79,7 +79,7 @@ const JellyButton: FC<JellyButtonProps> = ({
       {...rest}
       className={twMerge(
         // base styles
-        "group noise relative inline-flex min-w-40 cursor-pointer items-center justify-center rounded-full px-6 py-3.5",
+        "group noise relative inline-flex h-12 min-w-40 cursor-pointer items-center justify-center rounded-full px-6",
         // background colors
         twJoin(
           "backdrop-blur-sm",
@@ -114,7 +114,7 @@ const JellyButton: FC<JellyButtonProps> = ({
         "transition-all duration-300 ease-out",
 
         (isDisabled || isProcessing) &&
-          "translate-y-0 scale-100 cursor-progress hover:translate-y-0 hover:scale-100 active:translate-y-0 active:scale-100",
+          "translate-y-0 scale-100 cursor-default hover:translate-y-0 hover:scale-100 active:translate-y-0 active:scale-100",
 
         className,
       )}
@@ -134,7 +134,7 @@ const JellyButton: FC<JellyButtonProps> = ({
             {PROCESSING_LIGHTS.map(({ delay, duration }, index) => (
               <motion.span
                 key={index}
-                className="absolute top-1/2 block h-2/5 w-3/10 -translate-y-1/2 rounded-full bg-white/30 blur-md"
+                className="absolute top-1/2 block h-2/5 w-3/10 -translate-y-1/2 rounded-full bg-white/35 blur-md"
                 initial={{ x: "-100%" }}
                 animate={{ x: "300%", opacity: [0, 0.55, 0.3, 0.42, 0] }}
                 transition={{
@@ -160,7 +160,8 @@ const JellyButton: FC<JellyButtonProps> = ({
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className={twMerge(
             // typography
-            "z-1 text-sm font-semibold tracking-wide uppercase text-shadow-[0_0px_6px_rgba(10,10,10,0.4)]",
+            "z-1 text-sm leading-none font-semibold tracking-wide uppercase text-shadow-[0_0px_6px_rgba(10,10,10,0.4)]",
+            "flex items-center justify-center gap-1",
 
             isIdle && "text-pink-100",
             isProcessing && "text-purple-100",
