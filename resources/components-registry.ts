@@ -1,10 +1,11 @@
 import { ComponentSlug } from "@/resources/component-slugs";
+import type { PreviewPath } from "@/utils/preview-loader";
 
 export type ShowcaseComponent = {
   slug: ComponentSlug;
   name: string;
   description: string;
-  previewPath: string;
+  previewPath: PreviewPath;
 };
 
 export const COMPONENTS: Record<ComponentSlug, ShowcaseComponent> = {

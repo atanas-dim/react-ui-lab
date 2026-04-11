@@ -3,14 +3,21 @@ import path from "node:path";
 
 import type { FC } from "react";
 
+const PREVIEW_COMPONENTS = {
+  "jelly-button/JellyButtonPreview": () =>
+    import("@/components/jelly-button/JellyButtonPreview"),
+} as const;
+
+export type PreviewPath = keyof typeof PREVIEW_COMPONENTS;
+
 export const loadPreviewComponent = async (
-  previewPath: string,
+  previewPath: PreviewPath,
 ): Promise<{ default: FC }> => {
-  return import(`@/components/${previewPath}`);
+  return PREVIEW_COMPONENTS[previewPath]();
 };
 
 export const loadUsageExample = async (
-  previewPath: string,
+  previewPath: PreviewPath,
 ): Promise<string> => {
   return readFile(
     path.join(process.cwd(), "components", `${previewPath}.tsx`),
