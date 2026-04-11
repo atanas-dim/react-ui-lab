@@ -10,14 +10,14 @@ export type ShowcaseComponent = {
 };
 
 export const COMPONENTS: Record<ComponentSlug, ShowcaseComponent> = {
-  [ComponentSlug.PillButton]: {
-    slug: ComponentSlug.PillButton,
-    name: "Pill Button",
+  [ComponentSlug.JellyButton]: {
+    slug: ComponentSlug.JellyButton,
+    name: "Jelly Button",
     description:
       "Rounded call-to-action button with a soft lift, subtle glow, and reusable Tailwind-only styling.",
     component: () =>
-      import("@/components/pill-button/PillButton").then((mod) => ({
-        default: mod.PillButtonPreview,
+      import("@/components/jelly-button/JellyButton").then((mod) => ({
+        default: mod.JellyButtonPreview,
       })),
   },
 };
