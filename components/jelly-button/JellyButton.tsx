@@ -10,7 +10,6 @@ import {
   type PointerEventHandler,
   type PropsWithChildren,
   useRef,
-  useSyncExternalStore,
 } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -24,10 +23,6 @@ const PROCESSING_LIGHTS: ProcessingLight[] = [
   { delay: 0.36, duration: 1.65 },
   { delay: 0.78, duration: 1.5 },
 ];
-
-const subscribeToHydration = (): (() => void) => {
-  return () => {};
-};
 
 export type JellyButtonState = "idle" | "processing" | "success";
 
@@ -50,17 +45,9 @@ const JellyButton: FC<JellyButtonProps> = ({
   onPointerLeave,
   ...rest
 }) => {
-  const btnRef = useRef<HTMLButtonElement>(null);
-  const prefersReducedMotion = useReducedMotion();
-  // Keep the server snapshot and first client render aligned, then enable
-  // reduced-motion branching after hydration without using a mount effect.
-  const hasMounted = useSyncExternalStore(
-    subscribeToHydration,
-    () => true,
-    () => false,
-  );
+  const shouldReduceMotion = useReducedMotion();
 
-  const shouldReduceMotion = hasMounted && prefersReducedMotion;
+  const btnRef = useRef<HTMLButtonElement>(null);
 
   const isIdle = state === "idle";
   const isProcessing = state === "processing";
@@ -78,7 +65,7 @@ const JellyButton: FC<JellyButtonProps> = ({
   };
 
   const handlePointerMove: PointerEventHandler<HTMLButtonElement> = (e) => {
-    if (!shouldReduceMotion) setRotateValues(e);
+    setRotateValues(e);
     onPointerMove?.(e);
   };
 
@@ -89,7 +76,7 @@ const JellyButton: FC<JellyButtonProps> = ({
   };
 
   const handlePointerLeave: PointerEventHandler<HTMLButtonElement> = (e) => {
-    if (!shouldReduceMotion) resetRotateValues();
+    resetRotateValues();
     onPointerLeave?.(e);
   };
 
@@ -147,12 +134,10 @@ const JellyButton: FC<JellyButtonProps> = ({
         isDisabled && "after:opacity-0!",
 
         // transforms
-        shouldReduceMotion
-          ? "hover:scale-100 hover:rotate-x-0 hover:rotate-y-0"
-          : "hover:-translate-y-0.5 hover:scale-[1.02] hover:rotate-x-(--btn-rotate-x) hover:rotate-y-(--btn-rotate-y)",
-        shouldReduceMotion
-          ? "active:scale-100"
-          : "active:translate-y-0 active:scale-[0.99]",
+        "motion-safe:hover:-translate-y-0.5 motion-safe:hover:scale-[1.02] motion-safe:hover:rotate-x-(--btn-rotate-x) motion-safe:hover:rotate-y-(--btn-rotate-y)",
+        "motion-safe:active:translate-y-0 motion-safe:active:scale-[0.99]",
+        "motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100 motion-reduce:hover:rotate-x-0 motion-reduce:hover:rotate-y-0",
+        "motion-reduce:active:translate-y-0 motion-reduce:active:scale-100",
         "transition-all duration-300 ease-out",
 
         isDisabled &&
@@ -166,7 +151,7 @@ const JellyButton: FC<JellyButtonProps> = ({
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
     >
-      {!isDisabled && !shouldReduceMotion && (
+      {!isDisabled && (
         <AnimatePresence initial={false}>
           {isProcessing && (
             <motion.span
@@ -178,7 +163,7 @@ const JellyButton: FC<JellyButtonProps> = ({
                 duration: 0.22,
                 ease: "easeOut",
               }}
-              className="pointer-events-none absolute inset-0 overflow-hidden rounded-full"
+              className="pointer-events-none absolute inset-0 overflow-hidden rounded-full motion-reduce:hidden"
             >
               {PROCESSING_LIGHTS.map(({ delay, duration }, index) => (
                 <motion.span
@@ -205,24 +190,11 @@ const JellyButton: FC<JellyButtonProps> = ({
           <motion.span
             key={animateLabel ? state : "static"}
             initial={
-              shouldReduceMotion
-                ? { opacity: 0 }
-                : { y: 14, opacity: 0, filter: "blur(2px)" }
+              shouldReduceMotion ? { opacity: 0 } : { y: 14, opacity: 0 }
             }
-            animate={
-              shouldReduceMotion
-                ? { opacity: 1 }
-                : { y: 0, opacity: 1, filter: "blur(0px)" }
-            }
-            exit={
-              shouldReduceMotion
-                ? { opacity: 0 }
-                : { y: -14, opacity: 0, filter: "blur(2px)" }
-            }
-            transition={{
-              duration: shouldReduceMotion ? 0.2 : 0.3,
-              ease: [0.22, 1, 0.36, 1],
-            }}
+            animate={shouldReduceMotion ? { opacity: 1 } : { y: 0, opacity: 1 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { y: -14, opacity: 0 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className={labelClasses}
           >
             {children}
