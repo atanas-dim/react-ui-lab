@@ -10,10 +10,21 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
-a {
-  cursor: pointer;
+.code-block {
+  overflow-x: auto;
 }
 
-button {
-  cursor: pointer;
+.code-block pre {
+  margin: 0;
+  min-width: max-content;
+  overflow-x: auto !important;
+  padding: 1.25rem !important;
+}
+
+.code-block code {
+  display: block;
+  min-width: 100%;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.875rem;
+  line-height: 1.75;
 }

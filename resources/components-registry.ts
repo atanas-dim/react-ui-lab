@@ -1,21 +1,20 @@
-import type { FC } from "react";
-
 import { ComponentSlug } from "@/resources/component-slugs";
+import type { PreviewPath } from "@/utils/preview-loader";
 
 export type ShowcaseComponent = {
   slug: ComponentSlug;
   name: string;
   description: string;
-  component: () => Promise<{ default: FC }>;
+  previewPath: PreviewPath;
 };
 
 export const COMPONENTS: Record<ComponentSlug, ShowcaseComponent> = {
-  [ComponentSlug.PillButton]: {
-    slug: ComponentSlug.PillButton,
-    name: "Pill Button",
+  [ComponentSlug.JellyButton]: {
+    slug: ComponentSlug.JellyButton,
+    name: "Jelly Button",
     description:
-      "Rounded call-to-action button with a soft lift, subtle glow, and reusable Tailwind-only styling.",
-    component: () => import("@/components/pill-button/PillButton"),
+      "Rounded call-to-action button with a soft lift, subtle glow,\nand interactive jelly-like motion.",
+    previewPath: "jelly-button/JellyButtonPreview",
   },
 };
 

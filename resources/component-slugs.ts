@@ -1,3 +1,3 @@
 export enum ComponentSlug {
-  PillButton = "pill-button",
+  JellyButton = "jelly-button",
 }
