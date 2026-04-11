@@ -54,7 +54,7 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
             <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
               {component.name}
             </h1>
-            <p className="max-w-2xl text-base leading-7 whitespace-pre-line text-neutral-600 sm:text-lg">
+            <p className="max-w-md text-base leading-7 whitespace-pre-line text-neutral-600 sm:text-lg">
               {component.description}
             </p>
           </div>

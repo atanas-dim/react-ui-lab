@@ -13,7 +13,7 @@ export const COMPONENTS: Record<ComponentSlug, ShowcaseComponent> = {
     slug: ComponentSlug.JellyButton,
     name: "Jelly Button",
     description:
-      "Rounded call-to-action button with a soft lift, subtle glow,\nand interactive jelly-like motion.",
+      "Rounded call-to-action button with a soft lift, subtle glow, and interactive jelly-like motion.",
     previewPath: "jelly-button/JellyButtonPreview",
   },
 };

@@ -11,17 +11,18 @@ import {
   type PropsWithChildren,
   useRef,
 } from "react";
-import { twMerge } from "tailwind-merge";
+import { twJoin, twMerge } from "tailwind-merge";
 
 type ProcessingLight = {
   delay: number;
   duration: number;
+  className: string;
 };
 
 const PROCESSING_LIGHTS: ProcessingLight[] = [
-  { delay: 0, duration: 1.35 },
-  { delay: 0.36, duration: 1.65 },
-  { delay: 0.78, duration: 1.5 },
+  { delay: 0, duration: 1.35, className: "bg-white/40" },
+  { delay: 0.36, duration: 1.65, className: "bg-black/40" },
+  { delay: 0.78, duration: 1.5, className: "bg-white/40" },
 ];
 
 export type JellyButtonState = "idle" | "processing" | "success";
@@ -65,6 +66,7 @@ const JellyButton: FC<JellyButtonProps> = ({
   };
 
   const handlePointerMove: PointerEventHandler<HTMLButtonElement> = (e) => {
+    if (isDisabled) return;
     setRotateValues(e);
     onPointerMove?.(e);
   };
@@ -76,20 +78,21 @@ const JellyButton: FC<JellyButtonProps> = ({
   };
 
   const handlePointerLeave: PointerEventHandler<HTMLButtonElement> = (e) => {
+    if (isDisabled) return;
     resetRotateValues();
     onPointerLeave?.(e);
   };
 
   const labelClasses = twMerge(
     // typography
-    "z-1 text-sm leading-none font-semibold tracking-wide uppercase text-shadow-[0_0px_6px_rgba(10,10,10,0.4)]",
+    "z-2 text-sm leading-none font-semibold tracking-wide uppercase text-shadow-[0_0px_6px_rgba(10,10,10,0.4)]",
     "flex items-center justify-center gap-1",
 
     isIdle && "text-pink-100",
-    isProcessing && "text-purple-100",
+    isProcessing && "text-indigo-100",
     isSuccess && "text-teal-50",
 
-    "group-disabled:text-neutral-100/60",
+    "group-disabled:text-neutral-50/70",
 
     labelClassName,
   );
@@ -102,14 +105,14 @@ const JellyButton: FC<JellyButtonProps> = ({
       {...rest}
       className={twMerge(
         // base styles
-        "group noise relative inline-flex h-12 min-w-40 items-center justify-center rounded-full px-6",
+        "group noise relative inline-flex h-12 min-w-40 items-center justify-center rounded-full px-6 select-none",
 
         // background colors
         "backdrop-blur-sm",
-        isIdle && "bg-pink-600/50",
-        isProcessing && "bg-purple-600/50",
-        isSuccess && "bg-teal-600/50",
-        "disabled:bg-neutral-300/50",
+        isIdle && "bg-pink-600/60",
+        isProcessing && "bg-indigo-600/60",
+        isSuccess && "bg-teal-600/60",
+        "disabled:bg-neutral-400/60",
 
         // shadows
         "shadow-[inset_0px_-16px_16px_0px_rgba(10,10,10,0.6),0_12px_16px_-14px_rgba(10,10,10,0.55)]",
@@ -120,31 +123,34 @@ const JellyButton: FC<JellyButtonProps> = ({
         "focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:outline-none",
 
         // press highlight
-        "before:absolute before:top-1/2 before:left-1/2 before:h-1/3 before:w-7/10 before:-translate-x-1/2 before:-translate-y-1/3 before:rounded-full before:opacity-0 before:blur-sm before:transition-opacity before:duration-300 active:before:opacity-100",
+        "before:absolute before:top-1/2 before:left-1/2 before:z-1 before:h-1/3 before:w-7/10 before:-translate-x-1/2 before:-translate-y-1/3 before:rounded-full before:opacity-0 before:blur-sm before:transition-opacity before:duration-300 active:before:opacity-100",
         isIdle && "before:bg-pink-100/60",
-        isProcessing && "before:bg-purple-50/60",
+        isProcessing && "before:bg-indigo-50/60",
         isSuccess && "before:bg-teal-50/60",
         isDisabled && "before:opacity-0!",
 
         // press shadow
-        "after:absolute after:top-1/2 after:left-1/2 after:h-1/3 after:w-7/10 after:-translate-x-1/2 after:-translate-y-3/4 after:rounded-full after:bg-(--btn-press-shadow) after:opacity-0 after:blur-sm after:transition-opacity after:duration-300 active:after:opacity-100",
+        "after:absolute after:top-1/2 after:left-1/2 after:z-1 after:h-1/3 after:w-7/10 after:-translate-x-1/2 after:-translate-y-3/4 after:rounded-full after:bg-(--btn-press-shadow) after:opacity-0 after:blur-sm after:transition-opacity after:duration-300 active:after:opacity-100",
         isIdle && "after:bg-pink-800/60",
-        isProcessing && "after:bg-purple-800/60",
+        isProcessing && "after:bg-indigo-800/60",
         isSuccess && "after:bg-teal-800/60",
         isDisabled && "after:opacity-0!",
 
         // transforms
         "motion-safe:hover:-translate-y-0.5 motion-safe:hover:scale-[1.02] motion-safe:hover:rotate-x-(--btn-rotate-x) motion-safe:hover:rotate-y-(--btn-rotate-y)",
-        "motion-safe:active:translate-y-0 motion-safe:active:scale-[0.99]",
+        "motion-safe:active:translate-y-0 motion-safe:active:scale-[0.97]",
         "motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100 motion-reduce:hover:rotate-x-0 motion-reduce:hover:rotate-y-0",
         "motion-reduce:active:translate-y-0 motion-reduce:active:scale-100",
+        "disabled:translate-y-0 disabled:scale-100 disabled:hover:translate-y-0 disabled:hover:scale-100 disabled:active:translate-y-0 disabled:active:scale-100",
+
+        // transitions
         "transition-all duration-300 ease-out",
 
         isDisabled &&
           "translate-y-0 scale-100 hover:translate-y-0 hover:scale-100 active:translate-y-0 active:scale-100",
 
         //cursor
-        "cursor-pointer disabled:pointer-events-none disabled:cursor-not-allowed",
+        "cursor-pointer disabled:cursor-not-allowed",
 
         className,
       )}
@@ -152,7 +158,7 @@ const JellyButton: FC<JellyButtonProps> = ({
       onPointerLeave={handlePointerLeave}
     >
       {!isDisabled && (
-        <AnimatePresence initial={false}>
+        <AnimatePresence initial={!animateLabel}>
           {isProcessing && (
             <motion.span
               key="processing-lights"
@@ -165,21 +171,26 @@ const JellyButton: FC<JellyButtonProps> = ({
               }}
               className="pointer-events-none absolute inset-0 overflow-hidden rounded-full motion-reduce:hidden"
             >
-              {PROCESSING_LIGHTS.map(({ delay, duration }, index) => (
-                <motion.span
-                  key={index}
-                  className="absolute top-1/2 block h-2/5 w-3/10 -translate-y-1/2 rounded-full bg-white/40 blur-md"
-                  initial={{ x: "-100%" }}
-                  animate={{ x: "300%", opacity: [0, 0.55, 0.3, 0.42, 0] }}
-                  transition={{
-                    duration,
-                    delay,
-                    repeat: Infinity,
-                    ease: "linear",
-                    times: [0, 0.08, 0.55, 0.78, 1],
-                  }}
-                />
-              ))}
+              {PROCESSING_LIGHTS.map(
+                ({ delay, duration, className }, index) => (
+                  <motion.span
+                    key={index}
+                    className={twJoin(
+                      "absolute top-1/2 block h-2/5 w-3/10 -translate-y-1/2 rounded-full blur-md",
+                      className,
+                    )}
+                    initial={{ x: "-100%" }}
+                    animate={{ x: "300%", opacity: [0, 0.55, 0.3, 0.42, 0] }}
+                    transition={{
+                      duration,
+                      delay,
+                      repeat: Infinity,
+                      ease: "linear",
+                      times: [0, 0.08, 0.55, 0.78, 1],
+                    }}
+                  />
+                ),
+              )}
             </motion.span>
           )}
         </AnimatePresence>
