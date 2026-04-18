@@ -66,6 +66,7 @@ const JellyButton: FC<JellyButtonProps> = ({
   };
 
   const handlePointerMove: PointerEventHandler<HTMLButtonElement> = (e) => {
+    if (isDisabled) return;
     setRotateValues(e);
     onPointerMove?.(e);
   };
@@ -77,6 +78,7 @@ const JellyButton: FC<JellyButtonProps> = ({
   };
 
   const handlePointerLeave: PointerEventHandler<HTMLButtonElement> = (e) => {
+    if (isDisabled) return;
     resetRotateValues();
     onPointerLeave?.(e);
   };
@@ -90,7 +92,7 @@ const JellyButton: FC<JellyButtonProps> = ({
     isProcessing && "text-indigo-100",
     isSuccess && "text-teal-50",
 
-    "group-disabled:text-neutral-100/70",
+    "group-disabled:text-neutral-50/70",
 
     labelClassName,
   );
@@ -107,10 +109,10 @@ const JellyButton: FC<JellyButtonProps> = ({
 
         // background colors
         "backdrop-blur-sm",
-        isIdle && "bg-pink-600/50",
-        isProcessing && "bg-indigo-600/50",
-        isSuccess && "bg-teal-600/50",
-        "disabled:bg-neutral-300/50",
+        isIdle && "bg-pink-600/60",
+        isProcessing && "bg-indigo-600/60",
+        isSuccess && "bg-teal-600/60",
+        "disabled:bg-neutral-400/60",
 
         // shadows
         "shadow-[inset_0px_-16px_16px_0px_rgba(10,10,10,0.6),0_12px_16px_-14px_rgba(10,10,10,0.55)]",
@@ -139,13 +141,16 @@ const JellyButton: FC<JellyButtonProps> = ({
         "motion-safe:active:translate-y-0 motion-safe:active:scale-[0.97]",
         "motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100 motion-reduce:hover:rotate-x-0 motion-reduce:hover:rotate-y-0",
         "motion-reduce:active:translate-y-0 motion-reduce:active:scale-100",
+        "disabled:translate-y-0 disabled:scale-100 disabled:hover:translate-y-0 disabled:hover:scale-100 disabled:active:translate-y-0 disabled:active:scale-100",
+
+        // transitions
         "transition-all duration-300 ease-out",
 
         isDisabled &&
           "translate-y-0 scale-100 hover:translate-y-0 hover:scale-100 active:translate-y-0 active:scale-100",
 
         //cursor
-        "cursor-pointer disabled:pointer-events-none",
+        "cursor-pointer disabled:cursor-not-allowed",
 
         className,
       )}
@@ -153,7 +158,7 @@ const JellyButton: FC<JellyButtonProps> = ({
       onPointerLeave={handlePointerLeave}
     >
       {!isDisabled && (
-        <AnimatePresence initial={false}>
+        <AnimatePresence initial={!animateLabel}>
           {isProcessing && (
             <motion.span
               key="processing-lights"
