@@ -3,17 +3,14 @@ import path from "node:path";
 
 import type { FC } from "react";
 
-const PREVIEW_COMPONENTS = {
-  "jelly-button/JellyButtonPreview": () =>
-    import("@/components/jelly-button/JellyButtonPreview"),
-} as const;
-
-export type PreviewPath = keyof typeof PREVIEW_COMPONENTS;
+export type PreviewPath = string;
 
 export const loadPreviewComponent = async (
   previewPath: PreviewPath,
 ): Promise<{ default: FC }> => {
-  return PREVIEW_COMPONENTS[previewPath]();
+  // Dynamically import the preview component by relative component path.
+  // Example: previewPath = "jelly-button/JellyButtonPreview"
+  return import(`@/components/${previewPath}`) as Promise<{ default: FC }>;
 };
 
 export const loadUsageExample = async (

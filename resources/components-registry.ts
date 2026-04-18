@@ -16,6 +16,13 @@ export const COMPONENTS: Record<ComponentSlug, ShowcaseComponent> = {
       "Rounded call-to-action button with a soft lift, subtle glow, and interactive jelly-like motion.",
     previewPath: "jelly-button/JellyButtonPreview",
   },
+  [ComponentSlug.JellyInput]: {
+    slug: ComponentSlug.JellyInput,
+    name: "Jelly Input",
+    description:
+      "Polished input with subtle focus, floating label, and a soft noise texture for depth.",
+    previewPath: "jelly-input/JellyInputPreview",
+  },
 };
 
 export const COMPONENT_LIST = Object.values(COMPONENTS);
