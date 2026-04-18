@@ -107,7 +107,7 @@ const JellyButton: FC<JellyButtonProps> = ({
         // base styles
         "group noise relative inline-flex h-12 min-w-40 items-center justify-center rounded-full px-6 select-none",
 
-        // background colors
+        // background
         "backdrop-blur-sm",
         isIdle && "bg-pink-600/60",
         isProcessing && "bg-indigo-600/60",

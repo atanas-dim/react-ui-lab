@@ -70,7 +70,7 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
                 Interactive
               </span>
             </div>
-            <div className="flex min-h-64 items-center justify-center overflow-hidden rounded-3xl border border-dashed border-neutral-200 bg-neutral-50 p-6">
+            <div className="flex min-h-64 items-center justify-center overflow-hidden rounded-3xl border border-dashed border-neutral-200 p-6">
               <PreviewComponent />
             </div>
           </div>
