@@ -41,26 +41,37 @@ const JellyInput: FC<Props> = ({
   const isSuccess = state === "success";
 
   const shellBase = twJoin(
+    // base styles
     "group relative w-full overflow-hidden rounded-2xl noise",
     "bg-neutral-100/95 shadow-[inset_0px_-16px_16px_0px_rgba(10,10,10,0.2),0_12px_16px_-14px_rgba(10,10,10,0.55)]",
+
+    // focus layers
     "before:content-[''] after:content-['']",
     "before:pointer-events-none before:absolute before:top-3/5 before:left-1/2 before:z-10 before:h-1/3 before:w-7/10 before:-translate-x-1/2 before:-translate-y-2/5 before:rounded-full before:bg-neutral-50/20 before:opacity-0 before:blur-sm before:transition-opacity before:duration-300 focus-within:before:opacity-100",
     "after:pointer-events-none after:absolute after:top-2/5 after:left-1/2 after:z-10 after:h-1/3 after:w-7/10 after:-translate-x-1/2 after:-translate-y-3/4 after:rounded-full after:bg-neutral-900/10 after:opacity-0 after:blur-sm after:transition-opacity after:duration-300 focus-within:after:opacity-100",
+
+    // shadows
     "focus-within:shadow-[inset_0px_-6px_10px_0px_rgba(10,10,10,0.15),0_12px_16px_-14px_rgba(10,10,10,0.55)]",
     "disabled:shadow-[inset_0px_-16px_16px_0px_rgba(10,10,10,0.2),0_12px_12px_-12px_rgba(10,10,10,0.25)]",
+
+    // states
     isError && "bg-red-50/95 focus-within:bg-red-100/95",
     isSuccess && "bg-green-50/95 focus-within:bg-green-100/95",
+
+    // transitions
     "transition-all duration-300 ease-out",
     disabled && "opacity-60",
     className,
   );
 
   const inputBase = twJoin(
+    // input base styles
     "peer relative z-10 block w-full border-0 bg-transparent px-4 pb-3 pt-7 text-sm",
     "text-neutral-800 placeholder:text-transparent outline-none",
     "disabled:cursor-not-allowed",
   );
 
+  // state colors
   const stateClasses = {
     idle: "",
     error: "text-red-700 placeholder:text-red-300",
