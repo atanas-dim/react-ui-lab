@@ -39,13 +39,14 @@ const JellyInput: FC<Props> = ({
 
   const shellBase = twJoin(
     "group relative w-full overflow-hidden rounded-2xl noise",
-    "bg-neutral-100/95 shadow-[inset_0_-18px_28px_rgba(0,0,0,0.08),0_14px_24px_-18px_rgba(0,0,0,0.28)]",
+    "bg-neutral-100/95 shadow-[inset_0px_-16px_16px_0px_rgba(10,10,10,0.3),0_12px_16px_-14px_rgba(10,10,10,0.55)]",
+    "disabled:shadow-[inset_0px_-16px_16px_0px_rgba(10,10,10,0.3),0_12px_12px_-12px_rgba(10,10,10,0.25)]",
     "transition-[background-color,box-shadow,transform] duration-300 ease-out",
-    "focus-within:shadow-[inset_0_-18px_28px_rgba(0,0,0,0.1),0_18px_32px_-20px_rgba(0,0,0,0.34)]",
+    "focus-within:shadow-[inset_0_6px_16px_rgba(0,0,0,0.2),0_16px_36px_-14px_rgba(10,10,10,0.55)]",
     state === "error" &&
-      "bg-red-50/95 focus-within:bg-red-100/95 focus-within:shadow-[inset_0_-18px_28px_rgba(185,28,28,0.08),0_18px_32px_-20px_rgba(185,28,28,0.24)]",
+      "bg-red-50/95 focus-within:bg-red-100/95 focus-within:shadow-[inset_0_-16px_16px_rgba(185,28,28,0.12),0_22px_36px_-22px_rgba(185,28,28,0.3)]",
     state === "success" &&
-      "bg-green-50/95 focus-within:bg-green-100/95 focus-within:shadow-[inset_0_-18px_28px_rgba(5,150,105,0.08),0_18px_32px_-20px_rgba(5,150,105,0.22)]",
+      "bg-green-50/95 focus-within:bg-green-100/95 focus-within:shadow-[inset_0_-16px_16px_rgba(5,150,105,0.12),0_22px_36px_-22px_rgba(5,150,105,0.28)]",
     disabled && "opacity-60",
     className,
   );
@@ -140,7 +141,7 @@ const JellyInput: FC<Props> = ({
             "group-focus-within:opacity-100",
           )}
         >
-          <div className="absolute bottom-1 left-1/2 h-4 w-2/3 -translate-x-1/2 rounded-full bg-black/10 opacity-0 blur-md transition-opacity duration-200 peer-active:opacity-100" />
+          <div className="absolute top-1 left-1/2 h-4 w-5/6 -translate-x-1/2 rounded-full bg-black/16 opacity-0 blur-md transition-opacity duration-200 group-focus-within:opacity-100" />
         </div>
       </div>
     </div>
