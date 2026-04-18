@@ -39,14 +39,13 @@ const JellyInput: FC<Props> = ({
 
   const shellBase = twJoin(
     "group relative w-full overflow-hidden rounded-2xl noise",
-    "border border-neutral-200/90 bg-neutral-100/95",
-    "shadow-[inset_0_1px_0_rgba(255,255,255,0.7),inset_0_-16px_28px_rgba(0,0,0,0.06),0_14px_24px_-18px_rgba(0,0,0,0.35)]",
-    "transition-[border-color,box-shadow,transform] duration-300 ease-out",
-    "focus-within:border-neutral-300 focus-within:shadow-[inset_0_1px_0_rgba(255,255,255,0.82),inset_0_-16px_28px_rgba(0,0,0,0.07),0_18px_32px_-20px_rgba(0,0,0,0.42)]",
+    "bg-neutral-100/95 shadow-[inset_0_-18px_28px_rgba(0,0,0,0.08),0_14px_24px_-18px_rgba(0,0,0,0.28)]",
+    "transition-[background-color,box-shadow,transform] duration-300 ease-out",
+    "focus-within:shadow-[inset_0_-18px_28px_rgba(0,0,0,0.1),0_18px_32px_-20px_rgba(0,0,0,0.34)]",
     state === "error" &&
-      "border-red-400/80 focus-within:border-red-500 focus-within:shadow-[inset_0_1px_0_rgba(255,255,255,0.82),inset_0_-16px_28px_rgba(185,28,28,0.06),0_18px_32px_-20px_rgba(185,28,28,0.28)]",
+      "bg-red-50/95 focus-within:bg-red-100/95 focus-within:shadow-[inset_0_-18px_28px_rgba(185,28,28,0.08),0_18px_32px_-20px_rgba(185,28,28,0.24)]",
     state === "success" &&
-      "border-green-400/80 focus-within:border-green-500 focus-within:shadow-[inset_0_1px_0_rgba(255,255,255,0.82),inset_0_-16px_28px_rgba(5,150,105,0.06),0_18px_32px_-20px_rgba(5,150,105,0.24)]",
+      "bg-green-50/95 focus-within:bg-green-100/95 focus-within:shadow-[inset_0_-18px_28px_rgba(5,150,105,0.08),0_18px_32px_-20px_rgba(5,150,105,0.22)]",
     disabled && "opacity-60",
     className,
   );
@@ -72,7 +71,7 @@ const JellyInput: FC<Props> = ({
               key="label"
               htmlFor={inputId}
               className={twJoin(
-                "pointer-events-none absolute top-3 left-4 z-20 text-[11px] font-medium tracking-wide",
+                "pointer-events-none absolute top-2 left-4 z-20 text-[11px] font-medium tracking-wide",
                 "text-neutral-500",
                 stateClasses[state],
               )}
@@ -89,9 +88,9 @@ const JellyInput: FC<Props> = ({
               className={twJoin(
                 "pointer-events-none absolute left-4 z-20 origin-left text-[11px] font-medium tracking-wide",
                 "text-neutral-500 transition-colors",
-                "top-3 scale-100",
-                "peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-110",
-                "peer-focus:top-3 peer-focus:translate-y-0 peer-focus:scale-100",
+                "top-2 scale-100",
+                "peer-placeholder-shown:top-[calc(50%-2px)] peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-110",
+                "peer-focus:top-2 peer-focus:translate-y-0 peer-focus:scale-100",
                 stateClasses[state],
               )}
               initial="initial"
@@ -108,7 +107,7 @@ const JellyInput: FC<Props> = ({
 
       <div className="relative flex items-center">
         {leading && (
-          <div className="pointer-events-none absolute top-1/2 left-4 z-20 -translate-y-1/2 text-neutral-400">
+          <div className="pointer-events-none absolute top-7 left-4 z-20 text-neutral-400">
             {leading}
           </div>
         )}
@@ -117,6 +116,7 @@ const JellyInput: FC<Props> = ({
           id={inputId}
           className={twJoin(
             inputBase,
+            "peer",
             stateClasses[state],
             leading && "pl-10",
             trailing && "pr-10",
@@ -128,10 +128,20 @@ const JellyInput: FC<Props> = ({
         />
 
         {trailing && (
-          <div className="pointer-events-none absolute top-1/2 right-4 z-20 -translate-y-1/2 text-neutral-400">
+          <div className="pointer-events-none absolute top-7 right-4 z-20 text-neutral-400">
             {trailing}
           </div>
         )}
+        <div
+          aria-hidden="true"
+          className={twJoin(
+            "pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-2xl",
+            "opacity-0 transition-opacity duration-200 ease-out",
+            "group-focus-within:opacity-100",
+          )}
+        >
+          <div className="absolute bottom-1 left-1/2 h-4 w-2/3 -translate-x-1/2 rounded-full bg-black/10 opacity-0 blur-md transition-opacity duration-200 peer-active:opacity-100" />
+        </div>
       </div>
     </div>
   );
