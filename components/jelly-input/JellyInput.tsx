@@ -4,7 +4,7 @@ import "./JellyInput.css";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { FC, InputHTMLAttributes, ReactNode } from "react";
-import { useId } from "react";
+import { useEffect, useId, useState } from "react";
 import { twJoin, twMerge } from "tailwind-merge";
 
 type JellyInputState = "idle" | "error" | "success";
@@ -33,6 +33,8 @@ const JellyInput: FC<Props> = ({
   const isIdle = state === "idle";
   const isError = state === "error";
   const isSuccess = state === "success";
+  const { placeholder, ...inputProps } = rest;
+  const inputPlaceholder = placeholder ?? " ";
 
   const shellBase = twMerge(
     // base styles
@@ -82,53 +84,6 @@ const JellyInput: FC<Props> = ({
 
   return (
     <div className={shellBase}>
-      {label && (
-        <AnimatePresence mode="wait">
-          {reduce ? (
-            <motion.label
-              key="label"
-              htmlFor={inputId}
-              className={twMerge(
-                "pointer-events-none absolute top-2 left-4 z-20 text-[11px] font-medium tracking-wide",
-                "text-neutral-500",
-                isError && stateClasses.error,
-                isSuccess && stateClasses.success,
-              )}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              {label}
-            </motion.label>
-          ) : (
-            <motion.label
-              key="label-motion"
-              htmlFor={inputId}
-              className={twMerge(
-                "pointer-events-none absolute left-4 z-20 origin-left text-[11px] font-medium tracking-wide",
-                "text-neutral-500 transition-colors",
-                "top-2 scale-100",
-                "peer-placeholder-shown:top-[calc(50%-2px)] peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-110",
-                "peer-focus:top-2 peer-focus:translate-y-0 peer-focus:scale-100",
-                isError && stateClasses.error,
-                isSuccess && stateClasses.success,
-              )}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              variants={{
-                initial: { opacity: 0, y: 6 },
-                animate: { opacity: 1, y: 0 },
-                exit: { opacity: 0, y: -6 },
-              }}
-              transition={{ duration: 0.18 }}
-            >
-              {label}
-            </motion.label>
-          )}
-        </AnimatePresence>
-      )}
-
       <div className="relative flex items-center">
         {leading && (
           <div className="pointer-events-none absolute top-7 left-4 z-20 text-neutral-400">
@@ -140,22 +95,72 @@ const JellyInput: FC<Props> = ({
           id={inputId}
           className={twJoin(
             inputBase,
-            "peer",
             isError && stateClasses.error,
             isSuccess && stateClasses.success,
             leading && "pl-10",
             trailing && "pr-10",
           )}
+          placeholder={inputPlaceholder}
           disabled={disabled}
           aria-invalid={isError}
           aria-disabled={disabled}
-          {...rest}
+          {...inputProps}
         />
 
         {trailing && (
           <div className="pointer-events-none absolute top-7 right-4 z-20 text-neutral-400">
             {trailing}
           </div>
+        )}
+
+        {label && (
+          <AnimatePresence mode="wait">
+            {reduce ? (
+              <motion.label
+                key="label"
+                htmlFor={inputId}
+                className={twMerge(
+                  "pointer-events-none absolute left-4 z-20 text-xs font-medium tracking-wide",
+                  "text-neutral-500",
+                  "peer-placeholder-shown:top-7 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal",
+                  "peer-focus:top-2 peer-focus:text-xs peer-focus:font-medium",
+                  isError && stateClasses.error,
+                  isSuccess && stateClasses.success,
+                )}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                {label}
+              </motion.label>
+            ) : (
+              <motion.label
+                key="label-motion"
+                htmlFor={inputId}
+                className={twMerge(
+                  "pointer-events-none absolute left-4 z-20 origin-left text-xs font-medium tracking-wide",
+                  "text-neutral-500 transition-colors",
+                  "top-2 scale-100",
+                  "peer-placeholder-shown:top-7 peer-placeholder-shown:scale-100 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal",
+                  "peer-focus:top-2 peer-focus:scale-100 peer-focus:text-xs peer-focus:font-medium",
+                  "transition-all duration-300 ease-out",
+                  isError && stateClasses.error,
+                  isSuccess && stateClasses.success,
+                )}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                variants={{
+                  initial: { opacity: 0, y: 6 },
+                  animate: { opacity: 1, y: 0 },
+                  exit: { opacity: 0, y: -6 },
+                }}
+                transition={{ duration: 0.18 }}
+              >
+                {label}
+              </motion.label>
+            )}
+          </AnimatePresence>
         )}
       </div>
     </div>
