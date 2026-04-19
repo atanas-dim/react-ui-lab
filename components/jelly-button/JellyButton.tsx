@@ -2,9 +2,13 @@
 
 import "./JellyButton.css";
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
-  type ButtonHTMLAttributes,
+  AnimatePresence,
+  type HTMLMotionProps,
+  motion,
+  useReducedMotion,
+} from "motion/react";
+import {
   type FC,
   type PointerEvent,
   type PointerEventHandler,
@@ -27,9 +31,7 @@ const PROCESSING_LIGHTS: ProcessingLight[] = [
 
 export type JellyButtonState = "idle" | "processing" | "success";
 
-type JellyButtonProps = PropsWithChildren<
-  ButtonHTMLAttributes<HTMLButtonElement>
-> & {
+type JellyButtonProps = PropsWithChildren<HTMLMotionProps<"button">> & {
   labelClassName?: string;
   state?: JellyButtonState;
   animateLabel?: boolean;
@@ -98,9 +100,32 @@ const JellyButton: FC<JellyButtonProps> = ({
   );
 
   return (
-    <button
+    <motion.button
       ref={btnRef}
       type="button"
+      whileHover={
+        shouldReduceMotion || isDisabled
+          ? undefined
+          : {
+              y: [0, -4, -2],
+              scaleX: [1, 1.06, 1.01],
+              scaleY: [1, 0.98, 1.02],
+            }
+      }
+      whileTap={
+        shouldReduceMotion || isDisabled
+          ? undefined
+          : {
+              y: 0,
+              scaleX: [1, 0.97],
+              scaleY: [0.99, 1.05],
+            }
+      }
+      transition={{
+        duration: 0.28,
+        times: [0, 0.65, 1],
+        ease: "easeOut",
+      }}
       aria-busy={isProcessing}
       {...rest}
       className={twMerge(
@@ -123,7 +148,7 @@ const JellyButton: FC<JellyButtonProps> = ({
         "focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:outline-none",
 
         // press highlight
-        "before:absolute before:top-3/5 before:left-1/2 before:z-1 before:h-3/5 before:w-7/10 before:-translate-x-1/2 before:-translate-y-2/5 before:rounded-full before:opacity-0 before:transition-opacity before:duration-300 active:before:opacity-100",
+        "before:absolute before:top-3/5 before:left-1/2 before:z-1 before:h-3/5 before:w-9/10 before:-translate-x-1/2 before:-translate-y-2/5 before:rounded-full before:opacity-0 before:transition-opacity before:duration-300 active:before:opacity-100",
         isIdle &&
           "before:bg-[radial-gradient(color-mix(in_oklab,var(--color-pink-100)_20%,transparent),transparent_60%)]",
         isProcessing &&
@@ -142,12 +167,12 @@ const JellyButton: FC<JellyButtonProps> = ({
           "after:bg-[radial-gradient(color-mix(in_oklab,var(--color-teal-900)_35%,transparent),transparent_60%)]",
         isDisabled && "after:opacity-0!",
 
-        // transforms
-        "motion-safe:hover:-translate-y-0.5 motion-safe:hover:scale-[1.02] motion-safe:hover:rotate-x-(--btn-rotate-x) motion-safe:hover:rotate-y-(--btn-rotate-y)",
-        "motion-safe:active:translate-y-0 motion-safe:active:scale-[0.97]",
-        "motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100 motion-reduce:hover:rotate-x-0 motion-reduce:hover:rotate-y-0",
-        "motion-reduce:active:translate-y-0 motion-reduce:active:scale-100",
-        "disabled:translate-y-0 disabled:scale-100 disabled:hover:translate-y-0 disabled:hover:scale-100 disabled:active:translate-y-0 disabled:active:scale-100",
+        // // transforms
+        // "motion-safe:hover:-translate-y-0.5 motion-safe:hover:scale-[1.02] motion-safe:hover:rotate-x-(--btn-rotate-x) motion-safe:hover:rotate-y-(--btn-rotate-y)",
+        // "motion-safe:active:translate-y-0 motion-safe:active:scale-[0.97]",
+        // "motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100 motion-reduce:hover:rotate-x-0 motion-reduce:hover:rotate-y-0",
+        // "motion-reduce:active:translate-y-0 motion-reduce:active:scale-100",
+        // "disabled:translate-y-0 disabled:scale-100 disabled:hover:translate-y-0 disabled:hover:scale-100 disabled:active:translate-y-0 disabled:active:scale-100",
 
         // transitions
         "transition-all duration-300 ease-out",
@@ -220,7 +245,7 @@ const JellyButton: FC<JellyButtonProps> = ({
       ) : (
         <span className={labelClasses}>{children}</span>
       )}
-    </button>
+    </motion.button>
   );
 };
 
