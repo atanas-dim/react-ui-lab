@@ -123,17 +123,23 @@ const JellyButton: FC<JellyButtonProps> = ({
         "focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:outline-none",
 
         // press highlight
-        "before:absolute before:top-1/2 before:left-1/2 before:z-1 before:h-1/3 before:w-7/10 before:-translate-x-1/2 before:-translate-y-1/3 before:rounded-full before:opacity-0 before:blur-sm before:transition-opacity before:duration-300 active:before:opacity-100",
-        isIdle && "before:bg-pink-100/60",
-        isProcessing && "before:bg-indigo-50/60",
-        isSuccess && "before:bg-teal-50/60",
+        "before:absolute before:top-3/5 before:left-1/2 before:z-1 before:h-3/5 before:w-7/10 before:-translate-x-1/2 before:-translate-y-2/5 before:rounded-full before:opacity-0 before:transition-opacity before:duration-300 active:before:opacity-100",
+        isIdle &&
+          "before:bg-[radial-gradient(color-mix(in_oklab,var(--color-pink-100)_20%,transparent),transparent_60%)]",
+        isProcessing &&
+          "before:bg-[radial-gradient(color-mix(in_oklab,var(--color-indigo-50)_20%,transparent),transparent_60%)]",
+        isSuccess &&
+          "before:bg-[radial-gradient(color-mix(in_oklab,var(--color-teal-50)_20%,transparent),transparent_60%)]",
         isDisabled && "before:opacity-0!",
 
         // press shadow
-        "after:absolute after:top-1/2 after:left-1/2 after:z-1 after:h-1/3 after:w-7/10 after:-translate-x-1/2 after:-translate-y-3/4 after:rounded-full after:bg-(--btn-press-shadow) after:opacity-0 after:blur-sm after:transition-opacity after:duration-300 active:after:opacity-100",
-        isIdle && "after:bg-pink-800/60",
-        isProcessing && "after:bg-indigo-800/60",
-        isSuccess && "after:bg-teal-800/60",
+        "after:absolute after:top-3/7 after:left-1/2 after:z-1 after:h-1/2 after:w-9/10 after:-translate-x-1/2 after:-translate-y-3/4 after:rounded-full after:opacity-0 after:transition-opacity after:duration-300 active:after:opacity-100",
+        isIdle &&
+          "after:bg-[radial-gradient(color-mix(in_oklab,var(--color-pink-900)_35%,transparent),transparent_60%)]",
+        isProcessing &&
+          "after:bg-[radial-gradient(color-mix(in_oklab,var(--color-indigo-900)_35%,transparent),transparent_60%)]",
+        isSuccess &&
+          "after:bg-[radial-gradient(color-mix(in_oklab,var(--color-teal-900)_35%,transparent),transparent_60%)]",
         isDisabled && "after:opacity-0!",
 
         // transforms
