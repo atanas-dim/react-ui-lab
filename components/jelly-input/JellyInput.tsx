@@ -37,13 +37,17 @@ const JellyInput: FC<Props> = ({
   const shellBase = twMerge(
     // base styles
     "group relative w-full overflow-hidden rounded-2xl noise",
-    "shadow-[inset_0px_-16px_16px_0px_rgba(10,10,10,0.2),0_12px_16px_-14px_rgba(10,10,10,0.55)]",
 
     // background
     "backdrop-blur-sm",
     isIdle && "bg-neutral-50/60 focus-within:bg-neutral-100/60",
     isError && "bg-red-50/60 focus-within:bg-red-100/60",
     isSuccess && "bg-green-50/60 focus-within:bg-green-100/60",
+
+    // shadows
+    "shadow-[inset_0px_-10px_16px_0px_rgba(10,10,10,0.2),0_12px_16px_-14px_rgba(10,10,10,0.55)]",
+    "focus-within:shadow-[inset_0px_-6px_10px_0px_rgba(10,10,10,0.15),0_12px_16px_-14px_rgba(10,10,10,0.55)]",
+    "disabled:shadow-[inset_0px_-10px_16px_0px_rgba(10,10,10,0.2),0_12px_12px_-12px_rgba(10,10,10,0.25)]",
 
     // press highlight
     "before:pointer-events-none before:absolute before:top-3/5 before:left-1/2 before:z-10 before:h-1/3 before:w-7/10 before:-translate-x-1/2 before:-translate-y-2/5 before:rounded-full before:opacity-0 before:blur-sm motion-safe:before:transition-opacity motion-safe:before:duration-300 focus-within:before:opacity-100",
@@ -57,9 +61,11 @@ const JellyInput: FC<Props> = ({
     isError && "after:bg-red-900/10",
     isSuccess && "after:bg-green-900/10",
 
-    // shadows
-    "focus-within:shadow-[inset_0px_-6px_10px_0px_rgba(10,10,10,0.15),0_12px_16px_-14px_rgba(10,10,10,0.55)]",
-    "disabled:shadow-[inset_0px_-16px_16px_0px_rgba(10,10,10,0.2),0_12px_12px_-12px_rgba(10,10,10,0.25)]",
+    //focus ring
+    "focus-within:ring focus-within:ring-offset-2 focus-within:outline-none",
+    isIdle && "focus-within:ring-neutral-400",
+    isError && "focus-within:ring-red-400",
+    isSuccess && "focus-within:ring-green-400",
 
     // transitions
     "motion-safe:transition-all  motion-safe:duration-300 ease-out",
@@ -69,8 +75,8 @@ const JellyInput: FC<Props> = ({
 
   const inputBase = twJoin(
     // input base styles
-    "peer relative z-10 block w-full border-0 bg-transparent px-4 pb-3.5 pt-4.5 text-sm",
-    "text-neutral-800 placeholder:text-transparent outline-none",
+    "peer relative z-10 block w-full border-0 bg-transparent px-4 pb-2.5 pt-5.5 placeholder-shown:pb-4 placeholder-shown:pt-4 ",
+    "text-sm text-neutral-800 placeholder:text-transparent outline-none",
     "disabled:cursor-not-allowed",
   );
 
@@ -116,12 +122,10 @@ const JellyInput: FC<Props> = ({
           <label
             htmlFor={inputId}
             className={twMerge(
-              "pointer-events-none absolute left-4 z-20 origin-left font-medium tracking-wide",
-              "text-neutral-500",
+              "pointer-events-none absolute top-2 left-4 z-20 origin-left font-medium tracking-wide",
               leading && "left-10",
-              "top-2",
+              "text-[10px] font-medium text-neutral-500",
               "peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal",
-              "top-1 text-[10px] font-medium",
               "ease-out motion-safe:transition-all motion-safe:duration-300",
               isError && stateClasses.error,
               isSuccess && stateClasses.success,
