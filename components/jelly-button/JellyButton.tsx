@@ -77,7 +77,7 @@ const JellyButton: FC<JellyButtonProps> = ({
       type="button"
       initial={shouldReduceMotion ? undefined : { y: 0, scaleX: 1, scaleY: 1 }}
       whileHover={{
-        y: -2,
+        y: shouldReduceMotion || isDisabled ? undefined : -2,
       }}
       whileTap={
         shouldReduceMotion || isDisabled
