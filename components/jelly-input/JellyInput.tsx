@@ -1,7 +1,7 @@
 "use client";
 
 import "./JellyInput.css";
-
+import { motion, useReducedMotion } from "motion/react";
 import type { FC, InputHTMLAttributes, ReactNode } from "react";
 import { useId } from "react";
 import { twJoin, twMerge } from "tailwind-merge";
@@ -26,11 +26,14 @@ const JellyInput: FC<Props> = ({
   disabled,
   ...rest
 }) => {
+  const shouldReduceMotion = useReducedMotion();
+
   const autoId = useId();
   const inputId = id ?? `jelly-input-${autoId}`;
   const isIdle = state === "idle";
   const isError = state === "error";
   const isSuccess = state === "success";
+  const isDisabled = disabled;
   const { placeholder, ...inputProps } = rest;
   const inputPlaceholder = placeholder ?? " ";
 
@@ -75,7 +78,7 @@ const JellyInput: FC<Props> = ({
 
     // transitions
     "motion-safe:transition-all  motion-safe:duration-300 ease-out",
-    disabled && "opacity-60",
+    "disabled:opacity-60",
     className,
   );
 
@@ -94,7 +97,23 @@ const JellyInput: FC<Props> = ({
   } as const;
 
   return (
-    <div className={shellBase}>
+    <motion.div
+      initial={shouldReduceMotion ? undefined : { y: 0, scaleX: 1, scaleY: 1 }}
+      whileTap={
+        shouldReduceMotion || isDisabled
+          ? undefined
+          : {
+              y: 0,
+              scaleX: [1, 1.07, 1.01],
+              scaleY: [1, 0.98, 1.02],
+            }
+      }
+      transition={{
+        times: [0, 0.65, 1],
+        ease: "easeOut",
+      }}
+      className={shellBase}
+    >
       <div className="relative flex items-center">
         {leading && (
           <div className="pointer-events-none absolute top-4.5 left-4 z-20 text-neutral-400">
@@ -141,7 +160,7 @@ const JellyInput: FC<Props> = ({
           </label>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

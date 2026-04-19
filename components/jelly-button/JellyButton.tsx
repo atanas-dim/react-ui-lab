@@ -57,34 +57,6 @@ const JellyButton: FC<JellyButtonProps> = ({
   const isSuccess = state === "success";
   const isDisabled = rest.disabled;
 
-  const setRotateValues = (e: PointerEvent<HTMLButtonElement>) => {
-    if (!btnRef.current) return;
-    // Update hover rotation from the pointer position relative to the button center.
-    const rect = btnRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    btnRef.current.style.setProperty("--btn-rotate-y", `${x * 0.05}deg`);
-    btnRef.current.style.setProperty("--btn-rotate-x", `${y * -0.5}deg`);
-  };
-
-  const handlePointerMove: PointerEventHandler<HTMLButtonElement> = (e) => {
-    if (isDisabled) return;
-    setRotateValues(e);
-    onPointerMove?.(e);
-  };
-
-  const resetRotateValues = () => {
-    if (!btnRef.current) return;
-    btnRef.current.style.setProperty("--btn-rotate-x", "0deg");
-    btnRef.current.style.setProperty("--btn-rotate-y", "0deg");
-  };
-
-  const handlePointerLeave: PointerEventHandler<HTMLButtonElement> = (e) => {
-    if (isDisabled) return;
-    resetRotateValues();
-    onPointerLeave?.(e);
-  };
-
   const labelClasses = twMerge(
     // typography
     "z-2 text-sm leading-none font-semibold tracking-wide uppercase text-shadow-[0_0px_6px_rgba(10,10,10,0.4)]",
@@ -103,26 +75,20 @@ const JellyButton: FC<JellyButtonProps> = ({
     <motion.button
       ref={btnRef}
       type="button"
-      whileHover={
-        shouldReduceMotion || isDisabled
-          ? undefined
-          : {
-              y: [0, -4, -2],
-              scaleX: [1, 1.06, 1.01],
-              scaleY: [1, 0.98, 1.02],
-            }
-      }
+      initial={shouldReduceMotion ? undefined : { y: 0, scaleX: 1, scaleY: 1 }}
+      whileHover={{
+        y: -2,
+      }}
       whileTap={
         shouldReduceMotion || isDisabled
           ? undefined
           : {
               y: 0,
-              scaleX: [1, 0.97],
-              scaleY: [0.99, 1.05],
+              scaleX: [1, 0.98, 1.02],
+              scaleY: [1, 1.07, 1.01],
             }
       }
       transition={{
-        duration: 0.28,
         times: [0, 0.65, 1],
         ease: "easeOut",
       }}
@@ -167,26 +133,16 @@ const JellyButton: FC<JellyButtonProps> = ({
           "after:bg-[radial-gradient(color-mix(in_oklab,var(--color-teal-900)_35%,transparent),transparent_60%)]",
         isDisabled && "after:opacity-0!",
 
-        // // transforms
-        // "motion-safe:hover:-translate-y-0.5 motion-safe:hover:scale-[1.02] motion-safe:hover:rotate-x-(--btn-rotate-x) motion-safe:hover:rotate-y-(--btn-rotate-y)",
-        // "motion-safe:active:translate-y-0 motion-safe:active:scale-[0.97]",
-        // "motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100 motion-reduce:hover:rotate-x-0 motion-reduce:hover:rotate-y-0",
-        // "motion-reduce:active:translate-y-0 motion-reduce:active:scale-100",
-        // "disabled:translate-y-0 disabled:scale-100 disabled:hover:translate-y-0 disabled:hover:scale-100 disabled:active:translate-y-0 disabled:active:scale-100",
-
         // transitions
-        "transition-all duration-300 ease-out",
+        "transition-[box-shadow,background-color] duration-200 ease-out",
 
-        isDisabled &&
-          "translate-y-0 scale-100 hover:translate-y-0 hover:scale-100 active:translate-y-0 active:scale-100",
+        "disabled:translate-y-0 disabled:scale-100 disabled:hover:translate-y-0 disabled:hover:scale-100 disabled:active:translate-y-0 disabled:active:scale-100",
 
         //cursor
         "cursor-pointer disabled:cursor-not-allowed",
 
         className,
       )}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={handlePointerLeave}
     >
       {!isDisabled && (
         <AnimatePresence initial={!animateLabel}>
