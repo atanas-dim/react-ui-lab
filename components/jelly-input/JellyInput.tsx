@@ -78,7 +78,7 @@ const JellyInput: FC<Props> = ({
 
     // transitions
     "motion-safe:transition-all  motion-safe:duration-300 ease-out",
-    "disabled:opacity-60",
+    disabled && "opacity-60",
     className,
   );
 
