@@ -76,7 +76,7 @@ const JellyInput: FC<Props> = ({
   const inputBase = twJoin(
     // input base styles
     "peer relative z-10 block w-full border-0 bg-transparent px-4 pb-2.5 pt-5.5 placeholder-shown:pb-4 placeholder-shown:pt-4 ",
-    "text-sm text-neutral-800 placeholder:text-transparent outline-none",
+    "text-base text-neutral-800 placeholder:text-transparent outline-none",
     "disabled:cursor-not-allowed",
   );
 
@@ -125,7 +125,7 @@ const JellyInput: FC<Props> = ({
               "pointer-events-none absolute top-2 left-4 z-20 origin-left font-medium tracking-wide",
               leading && "left-10",
               "text-[10px] font-medium text-neutral-500",
-              "peer-placeholder-shown:top-4 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal",
+              "peer-placeholder-shown:top-4.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-normal",
               "ease-out motion-safe:transition-all motion-safe:duration-300",
               isError && stateClasses.error,
               isSuccess && stateClasses.success,
