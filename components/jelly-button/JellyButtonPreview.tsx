@@ -35,9 +35,9 @@ const JellyButtonPreview: FC = () => {
     <div className="relative z-10 flex flex-col gap-3 perspective-midrange md:flex-row">
       {/* Background shapes */}
       <div className="pointer-events-none absolute inset-0 -z-1 select-none">
-        <div className="absolute top-6 -left-16 -z-1 size-28 rounded-xl bg-mist-400" />
-        <div className="absolute -top-8 left-3/5 -z-1 size-32 rounded-full bg-mauve-400" />
-        <div className="absolute -right-10 -bottom-2/10 -z-1 size-22 rounded-sm bg-olive-400" />
+        <div className="absolute top-6 -left-16 -z-1 size-28 rounded-xl border-6 border-neutral-700" />
+        <div className="absolute -top-8 left-3/5 -z-1 size-32 rounded-full border-6 border-neutral-700" />
+        <div className="absolute -right-10 -bottom-2/10 -z-1 size-22 rounded-sm border-6 border-neutral-700" />
       </div>
 
       <JellyButton
