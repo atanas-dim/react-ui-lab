@@ -41,8 +41,8 @@ const JellyInput: FC<Props> = ({
     // background
     "backdrop-blur-sm",
     isIdle && "bg-neutral-50/60 focus-within:bg-neutral-100/60",
-    isError && "bg-red-50/60 focus-within:bg-red-100/60",
-    isSuccess && "bg-green-50/60 focus-within:bg-green-100/60",
+    isError && "bg-red-100/60 focus-within:bg-red-200/60",
+    isSuccess && "bg-green-100/60 focus-within:bg-green-200/60",
 
     // shadows
     "shadow-[inset_0px_-10px_16px_0px_rgba(10,10,10,0.2),0_12px_16px_-14px_rgba(10,10,10,0.55)]",
@@ -50,16 +50,22 @@ const JellyInput: FC<Props> = ({
     "disabled:shadow-[inset_0px_-10px_16px_0px_rgba(10,10,10,0.2),0_12px_12px_-12px_rgba(10,10,10,0.25)]",
 
     // press highlight
-    "before:pointer-events-none before:absolute before:top-3/5 before:left-1/2 before:z-10 before:h-1/3 before:w-7/10 before:-translate-x-1/2 before:-translate-y-2/5 before:rounded-full before:opacity-0 before:blur-sm motion-safe:before:transition-opacity motion-safe:before:duration-300 focus-within:before:opacity-100",
-    isIdle && "before:bg-neutral-50/20",
-    isError && "before:bg-red-50/20",
-    isSuccess && "before:bg-green-50/20",
+    "before:pointer-events-none before:absolute before:top-4/5 before:left-1/2 before:z-1 before:h-1/2 before:w-7/10 before:-translate-x-1/2 before:-translate-y-2/5 before:rounded-full before:opacity-0 motion-safe:before:transition-opacity motion-safe:before:duration-300 focus-within:before:opacity-100",
+    isIdle &&
+      "before:bg-[radial-gradient(color-mix(in_oklab,var(--color-neutral-100)_70%,transparent),transparent_60%)]",
+    isError &&
+      "before:bg-[radial-gradient(color-mix(in_oklab,var(--color-red-100)_70%,transparent),transparent_60%)]",
+    isSuccess &&
+      "before:bg-[radial-gradient(color-mix(in_oklab,var(--color-green-100)_70%,transparent),transparent_60%)]",
 
     // press shadow
-    "after:pointer-events-none after:absolute after:top-2/5 after:left-1/2 after:z-10 after:h-1/3 after:w-7/10 after:-translate-x-1/2 after:-translate-y-3/4 after:rounded-full after:opacity-0 after:blur-sm motion-safe:after:transition-opacity motion-safe:after:duration-300 focus-within:after:opacity-100",
-    isIdle && "after:bg-neutral-900/10",
-    isError && "after:bg-red-900/10",
-    isSuccess && "after:bg-green-900/10",
+    "after:pointer-events-none after:absolute after:top-2/5 after:left-1/2 after:z-1 after:h-3/5 after:w-9/10 after:-translate-x-1/2 after:-translate-y-3/4 after:rounded-full after:opacity-0 motion-safe:after:transition-opacity motion-safe:after:duration-300 focus-within:after:opacity-100",
+    isIdle &&
+      "after:bg-[radial-gradient(color-mix(in_oklab,var(--color-neutral-900)_10%,transparent),transparent_60%)]",
+    isError &&
+      "after:bg-[radial-gradient(color-mix(in_oklab,var(--color-red-900)_10%,transparent),transparent_60%)]",
+    isSuccess &&
+      "after:bg-[radial-gradient(color-mix(in_oklab,var(--color-green-900)_10%,transparent),transparent_60%)]",
 
     //focus ring
     "focus-within:ring focus-within:ring-offset-2 focus-within:outline-none",
